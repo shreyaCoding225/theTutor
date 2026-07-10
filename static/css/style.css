@@ -1,0 +1,432 @@
+/* id:#   class:. */
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+body{
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    /* height: 100%; */
+    min-height: 100vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.site-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Main expands, forcing footer down */
+  min-height: 100dvh; /* Takes full dynamic viewport height */
+}
+
+
+
+
+/* navigation bar */
+.nav-bar{
+    background-color: #281C35;
+    height: 15vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    border:0;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.56);
+}
+
+.nav-div1{
+    height:75%;
+    width: 25vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 15px;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+.nav-div2{
+    height:75%;
+    width: 75vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: 40px;
+    /* border: 1px solid black; */
+}
+
+.title a{
+    color: #aec8f6;
+    height: 60%;
+    width: fit-content;
+    /* border: 1px solid black; */
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 45px;
+    font-family: 'cambria', 'calibri', 'franklin gothic book';
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.title a:hover{
+    border: 1px solid grey;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+.nav-option{
+    color: #92c5e4;
+    height: 50%;
+    width: fit-content;
+    /* border: 1px solid black; */
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 22px;       
+    font-weight: 600;      
+    letter-spacing: 0.7px; 
+}
+
+.nav-option:hover{
+    text-shadow: 0px 0px 10px #92c5e4, 0px 0px 5px #92c5e4;
+    /* color: #496f87; */
+}
+
+#sign{
+    color: #d26e4d;
+}
+
+#sign:hover{
+    text-shadow: 0px 0px 10px #d26e4d, 0px 0px 10px #d26e4d;
+}
+
+#hamburger{
+    display: none;
+}
+
+
+
+/* 1. Hide the mobile-specific dropdown entirely by default on all screens */
+.nav-menu {
+    display: none;
+    position: absolute;
+    top: 13vh; /* Sits perfectly below your mobile navbar height */
+    right: 15px;
+    background-color: #240249;
+    /* border: 1px solid #92c5e4; */
+    border: 1px solid #240249;
+    border-radius: 8px;
+    padding: 10px 0;
+    width: 200px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* 2. Style the vertical list elements inside your new dropdown */
+.dropdown-option {
+    color: #92c5e4;
+    display: block;
+    padding: 12px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-option:hover{
+    text-shadow: 0px 0px 10px #92c5e4, 0px 0px 5px #92c5e4;
+}
+
+/* 3. The Magic Light-Switch Class */
+.nav-menu.show {
+    display: block; /* Turns on your clean floating panel instantly */
+}
+
+/* 4. Hide the desktop options when screen is small (inside your existing queries) */
+@media (max-width: 700px) {
+    .desktop-only {
+        display: none !important;
+    }
+}
+
+
+
+@media (min-width: 701px) and (max-width: 850px){
+    .nav-div1{
+        width: 35vw;
+    }
+
+    .nav-div2{
+        width: 65vw;
+        padding: 0px;
+    }
+
+    .nav-option{
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 450px) and (max-width: 700px) {
+    .nav-bar{
+        align-items: center;
+        height: 13vh;
+    }
+
+    /* 1. Pop the hamburger into view */
+    #hamburger {
+        display: block;
+        font-size: 28px;
+        color: #92c5e4;
+        cursor: pointer;
+    }
+
+    /* 3. Hide the options by default on mobile */
+    .nav-option {
+        display: none; 
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .nav-div1{
+        width: 45vw;
+        /* padding-left: 1px; */
+    }
+
+    .nav-div2{
+        width: 55vw;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 10px;
+    }
+
+    /* 4. When the burger is clicked, reveal all the options at once */
+    .nav-div2.show .nav-option {
+        display: flex;
+    }
+}
+
+
+@media (max-width: 449px){
+    .nav-bar{
+        align-items: center;
+        height: 13vh;
+    }
+
+    /* 1. Pop the hamburger into view */
+    #hamburger {
+        display: block;
+        font-size: 28px;
+        color: #92c5e4;
+        cursor: pointer;
+    }
+
+    /* 3. Hide the options by default on mobile */
+    .nav-option {
+        display: none; 
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .nav-div1{
+        width: 55vw;
+        padding-left: 1px;
+    }
+
+    .nav-div2{
+        width: 45vw;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0px;
+    }
+
+    /* 4. When the burger is clicked, reveal all the options at once */
+    .nav-div2.show .nav-option {
+        display: flex;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+/* home page */
+#hero{
+    background-color: #030426;
+    background-image: url('/static/images/dark-bg-pngbooks.jpg');
+    background-size: auto;
+    background-repeat: repeat !important;
+    position: relative;
+    background-position: top left;
+    width: 100%;
+    /* height: calc(100vh - 15vh); */
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+
+.hero-content{
+    height: 90%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* border: 2px solid black; */
+    gap: 5rem;
+}
+
+.horiz{
+    height: 300px;
+    min-height: 275px;
+    width: 100%;
+    max-width: 80vw;
+
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.56);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+
+    gap: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    overflow-y: hidden;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.horiz::-webkit-scrollbar{
+    display: none;
+}
+
+.card{
+    height:85%;
+    width: 200px;
+    min-width: 200px;
+    flex-shrink: 0;
+    background-color: #030426;
+    color: white;
+}
+
+
+
+/* footer */
+
+.end-nav{
+    height: 320px;
+    width: auto;
+    background-color: #241c35;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.56);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.end-content{
+    height: 225px;
+    width: auto;
+    /* border: 0.5px solid white; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10rem;
+}
+
+.end-group{
+    height: 120px;
+    width: auto;
+    /* min-width: 200px; */
+    display: flex;
+    flex-direction: column;
+    align-items: space-around;
+    justify-content: space-around;
+    color: rgb(181, 179, 179);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.end-group a{
+    color: rgba(181, 179, 179, 0.782);
+    text-decoration: none;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    /* display: flex;
+    flex-direction: column; */
+    /* justify-content: space-around;
+    align-items: space-around; */
+    /* gap: 2px; */
+}
+
+.github-link{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.title{
+    height: auto;
+    width: auto;
+}
+
+.content{
+    height: auto;
+    width: auto;
+    /* min-width: 200px; */
+    gap:5px;
+}
+
+.end{
+    height: 75px;
+    width: 100%;
+    /* border: 0.5px solid white; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    color: rgba(181, 179, 179, 0.648);
+}
+
+.footer-divider{
+    height: 1px;
+    border: 0;
+    width: 90%;
+    background-color: rgba(181, 179, 179, 0.693);
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 0;
+}
+
+

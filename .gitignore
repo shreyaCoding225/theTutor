@@ -1,0 +1,15 @@
+# Virtual Environment Folder
+fastapi-env/
+
+# SQLite Database Binary File
+theTutor.db
+
+# Python Bytecode Caching Layers
+__pycache__/
+*.pyc
+
+# Local Design Drafts & UI Roughs
+*_rough.png
+
+# Node/Frontend Dependency Locks (if not tracking active npm packages)
+package-lock.json
