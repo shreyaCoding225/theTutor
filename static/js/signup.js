@@ -39,3 +39,14 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
         alert('Server is down or unreachable. Check your terminal!');
     }
 });
+
+
+// sign up by google
+document.addEventListener("DOMContentLoaded", () => {
+    const googleBtn = document.querySelector(".google-btn");
+    
+    googleBtn.addEventListener("click", (e) => {
+            console.log("⚡ Google Button clicked! Attempting redirect...");
+            window.location.href = "http://localhost:8000/auth/login";
+        });
+});

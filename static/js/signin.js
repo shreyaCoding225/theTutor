@@ -46,3 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+
+
+// sign in with google
+document.addEventListener("DOMContentLoaded", () => {
+    const googleBtn = document.querySelector(".google-btn");
+    
+    googleBtn.addEventListener("click", (e) => {
+            console.log("⚡ Google Button clicked! Attempting redirect...");
+            window.location.href = "http://localhost:8000/auth/login";
+        });
+});

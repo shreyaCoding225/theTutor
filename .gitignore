@@ -13,3 +13,5 @@ __pycache__/
 
 # Node/Frontend Dependency Locks (if not tracking active npm packages)
 package-lock.json
+
+.env

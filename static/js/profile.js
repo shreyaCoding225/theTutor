@@ -1,4 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authSession = urlParams.get('auth_session');
+
+    if (authSession) {
+        // Drop the session ID into the local storage locker!
+        localStorage.setItem("session_user_id", authSession);
+        
+        // Clean up the URL instantly so the user doesn't see "?auth_session=..." in the browser address bar
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Your existing auth checking loop continues right down here...
+    const userId = localStorage.getItem("session_user_id");
+    
     fetchUserProfile();
 });
 
