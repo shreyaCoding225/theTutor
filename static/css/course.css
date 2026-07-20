@@ -1,0 +1,113 @@
+/* course.css */
+body {
+    background-color: #010813d3;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.course-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(24, 6, 36, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* 🔙 Back Controller Button */
+.back-btn {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 24px;
+    transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+    color: #0056b3;
+}
+
+/* 🏷️ Difficulty Level Badge */
+.course-badge {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #0d47a1;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+#detail-title {
+    font-size: 32px;
+    margin-bottom: 16px;
+    color: #ffffff;
+}
+
+#detail-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #b0b3b8;
+}
+
+.section-divider {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 40px 0;
+}
+
+.syllabus-section h2 {
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+/* 🎯 Skills Stack Nodes */
+.skills-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skill-node-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.2s ease;
+}
+
+.skill-node-card:hover {
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.skill-node-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #e3f2fd;
+}
+
+.skill-node-card p {
+    font-size: 14px;
+    color: #a0a5b0;
+    line-height: 1.5;
+}
+
+.empty-notice {
+    color: #666;
+    font-style: italic;
+}
+
+
+
+.skill-node-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}

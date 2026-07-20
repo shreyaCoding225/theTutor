@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>theTutor</title>
     <link rel="stylesheet" href="/static/css/style.css?v=0">
+    <link rel="stylesheet" href="/static/css/explore.css?v=0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 
@@ -40,11 +41,33 @@
     </header>
 
     <main>
-        <div id="hero"></div>
+        <div id="hero">
+            <div class="contents">
+                <div class="contents-header">
+                    <h1>Explore Catalog</h1>
+                    <p>Search for a specific role or browse individual courses below.</p>
+                </div>
+                <div class="search-wrapper">
+                    <input type="text" id="role-search"
+                        placeholder="Type a role (e.g., Frontend, Backend) or keyword..." autocomplete="off">
+                </div>
+                <div class="courses-grid">
+                    <!-- <div class="loading-placeholder">Loading catalog items...</div> -->
+                </div>
+            </div>
+        </div>
     </main>
 
-    <footer></footer>
+    <footer>
+        <div class="end-nav profile-nav">
+            <div class="end">
+                <p>&copy; 2026 theTutor. Handcrafted with Python & Custom CSS.</p>
+                <p class="footer-tagline">Learn at your own latency.</p>
+            </div>
+        </div>
+    </footer>
 
+    <script src="/static/js/explore.js"></script>
     <script src="/static/js/app.js"></script>
 </body>
 

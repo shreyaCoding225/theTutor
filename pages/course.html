@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Syllabus - theTutor</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/course.css">
+</head>
+<body>
+    <main class="course-detail-container">
+        <!-- Dynamic header injected by JS -->
+        <section id="course-header">
+            <a href="/explore" class="back-btn">← Back to Catalog</a>
+            <span id="detail-badge" class="course-badge">Loading...</span>
+            <h1 id="detail-title">Loading Course Title...</h1>
+            <p id="detail-description">Loading course layout details...</p>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Skills & Modules Breakdown -->
+        <section class="syllabus-section">
+            <h2>What you will learn</h2>
+            <div id="skills-list" class="skills-stack">
+                <!-- JS will inject individual module blocks here -->
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/js/course-detail.js"></script>
+</body>
+</html>

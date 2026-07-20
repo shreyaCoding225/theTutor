@@ -1,0 +1,224 @@
+/* workspace.css */
+body {
+    background-color: #0b0f19;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.workspace-header {
+    background: #111827;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.exit-btn { color: #9ca3af; text-decoration: none; font-weight: 500; }
+.exit-btn:hover { color: #ffffff; }
+#workspace-module-title { font-size: 16px; margin: 0; font-weight: 600; }
+
+.status-badge.live {
+    font-size: 12px;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+/* 📱 Responsive Split Layout */
+.workspace-split {
+    display: flex;
+    flex-direction: row; /* Side-by-side on desktop */
+    flex: 1;
+}
+
+.panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0; /* Prevents text elements from blowing out container widths */
+}
+
+.instructions-panel {
+    background: #131b2e;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.playground-panel {
+    background: #0f172a;
+    padding: 20px;
+}
+
+.panel-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Step Progress Indicator Styles */
+.step-dots {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.dot {
+    height: 6px;
+    width: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    transition: background 0.3s;
+}
+.dot.active { background: #3b82f6; }
+
+.task-box {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid #1e40af;
+    border-left: 4px solid #3b82f6;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+/* Editor Components */
+.playground-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+
+/* Update these target classes inside your workspace.css file */
+
+.code-editor-wrapper {
+    flex: 1;
+    min-height: 200px;
+    background: #010409;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+    
+    /* 🌟 Add this: Forces the wrapper to behave as a flex container */
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+#code-input {
+    /* 🌟 Change this: Force it to stretch and take up all available vertical space */
+    flex-grow: 1 !important; 
+    width: 100% !important;
+    height: 100% !important;
+    
+    background: transparent !important;
+    border: none !important;
+    color: #39d353 !important;
+    font-family: 'Fira Code', Consolas, Monaco, monospace !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    resize: none !important;
+    outline: none !important;
+    white-space: pre !important;
+    overflow: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.live-preview-box {
+    flex: 1;
+    min-height: 200px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    display: none;
+}
+
+#preview-frame { width: 100%; height: 100%; border: none; }
+
+.interactive-controls {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.primary-btn, .secondary-btn {
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+}
+.primary-btn { background: #2563eb; color: #ffffff; }
+.primary-btn:hover { background: #1d4ed8; }
+.secondary-btn { background: rgba(255, 255, 255, 0.08); color: #e5e7eb; }
+.secondary-btn:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* RESPONSIVE BREAKPOINT FOR MOBILE SCREENS */
+@media (max-width: 768px) {
+    .workspace-split {
+        flex-direction: column; /* Stack panels vertically on mobile */
+        overflow-y: auto;
+    }
+    .instructions-panel {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+}
+
+
+/* SLEEK MULTI-PANEL SCROLLBAR STYLES*/
+
+/* For Chrome, Edge, Safari, and Opera */
+#code-input::-webkit-scrollbar,
+.panel::-webkit-scrollbar,
+.workspace-split::-webkit-scrollbar {
+    width: 6px;               /* Thin vertical track */
+    height: 6px;              /* Thin horizontal track */
+}
+
+/* The Background Track */
+#code-input::-webkit-scrollbar-track,
+.panel::-webkit-scrollbar-track,
+.workspace-split::-webkit-scrollbar-track {
+    background: transparent;  /* Keeps it seamless */
+}
+
+/* The Scrollable Draggable Thumb */
+#code-input::-webkit-scrollbar-thumb {
+    background: rgba(57, 211, 83, 0.2); /* Low-opacity green matching the text inside the editor */
+    border-radius: 4px;
+}
+#code-input::-webkit-scrollbar-thumb:hover {
+    background: rgba(57, 211, 83, 0.4); /* Glows slightly brighter on hover */
+}
+
+/* System interface panel scrollbar tracks */
+.panel::-webkit-scrollbar-thumb,
+.workspace-split::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08); /* Minimalist muted grey for UI elements */
+    border-radius: 4px;
+}
+.panel::-webkit-scrollbar-thumb:hover,
+.workspace-split::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* For Firefox Support */
+#code-input {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(57, 211, 83, 0.2) transparent;
+}
+
+.panel, .workspace-split {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}

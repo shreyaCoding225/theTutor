@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Form, HTTPException, responses, APIRouter, Depends, Request
-from fastapi.responses import FileResponse, RedirectResponse  #to grab the whole file instead of a json response and send it over
+from fastapi.responses import FileResponse, RedirectResponse, HTMLResponse  #to grab the whole file instead of a json response and send it over
 from fastapi.staticfiles import StaticFiles
 
 import os   #py module, to interact with the os directly
@@ -11,6 +11,8 @@ import sqlite3
 
 import httpx
 from dotenv import load_dotenv
+
+
 
 
 app = FastAPI()
@@ -216,3 +218,229 @@ async def auth_callback(code: str):
     #  Redirection Bridge: Send them straight to the profile frontend template page.
     # We pass the internal_user_id as a temporary query parameter so the frontend can grab it.
     return RedirectResponse(url=f"http://localhost:8000/profile?auth_session={internal_user_id}")
+
+
+
+
+# curriculum and contents
+CURRICULUM_DB = "curriculum.db"
+
+# for loading explore page
+def query_curriculum(query: str, params: tuple = ()):
+    import sqlite3
+    conn = sqlite3.connect(CURRICULUM_DB)
+    conn.row_factory = sqlite3.Row  # Access columns by string key names
+    cursor = conn.cursor()
+    cursor.execute(query, params)
+    results = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    return results
+
+# 1. Fetch all standalone individual courses for the Explore grid layout
+@app.get("/api/courses")
+async def get_all_courses():
+    return query_curriculum("SELECT * FROM courses")
+
+# 2. Search bar helper route: Get courses mapped to a role name text pattern
+@app.get("/api/search-role")
+async def search_role_courses(role_name: str):
+    sql = """
+        SELECT c.* FROM courses c
+        JOIN role_courses rc ON c.id = rc.course_id
+        JOIN roles r ON r.id = rc.role_id
+        WHERE r.name LIKE ?
+    """
+    # Uses SQL wildcard search like %frontend%
+    return query_curriculum(sql, (f"%{role_name}%",))
+
+
+
+
+# for loading course pages into template
+@app.get("/api/course-details")
+async def get_course_details(id: int):
+    conn = sqlite3.connect("curriculum.db")
+    cursor = conn.cursor()
+    
+    # 1. Fetch core course info
+    cursor.execute("SELECT id, title, description, difficulty FROM courses WHERE id = ?", (id,))
+    course_row = cursor.fetchone()
+    
+    if not course_row:
+        conn.close()
+        return {"error": "Course not found"}, 404
+        
+    course_data = {
+        "id": course_row[0],
+        "title": course_row[1],
+        "description": course_row[2],
+        "difficulty": course_row[3],
+        "skills": []
+    }
+    
+    # 2. Fetch all related skills linked to this course
+    cursor.execute("SELECT name, description FROM skills WHERE course_id = ?", (id,))
+    skills_rows = cursor.fetchall()
+    
+    for row in skills_rows:
+        course_data["skills"].append({
+            "name": row[0],
+            "description": row[1]
+        })
+        
+    conn.close()
+    return course_data
+
+
+
+
+@app.get("/course")
+async def serve_course_page():
+    try:
+        # 🎯 Updated to point straight to your 'pages' directory
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        template_path = os.path.join(base_dir, "pages", "course.html")
+        
+        with open(template_path, "r", encoding="utf-8") as f:
+            html_content = f.read()
+            
+        return HTMLResponse(content=html_content, status_code=200)
+        
+    except Exception as e:
+        error_html = f"""
+        <div style="padding: 20px; background: #fee2e2; color: #991b1b; border: 1px solid #f87171; font-family: monospace; border-radius: 8px; margin: 20px;">
+            <h3>🛠️ FastAPI Template Error Context</h3>
+            <p><strong>Message:</strong> {str(e)}</p>
+            <p><strong>Attempted Path:</strong> {template_path if 'template_path' in locals() else 'Failed during path parsing'}</p>
+        </div>
+        """
+        return HTMLResponse(content=error_html, status_code=500)
+    
+
+
+# inside course
+@app.get("/workspace", response_class=HTMLResponse)
+async def serve_workspace_page(course_id: int, module: str):
+    # Define the 3 active modules we are supporting right now
+    active_modules = [
+        "CSS Grid Layouts", 
+        "Asynchronous Fetch Processing", 
+        "Custom Hooks Pattern"
+    ]
+    
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # If it's one of our core three modules, serve the real application canvas
+    if module in active_modules:
+        template_path = os.path.join(base_dir, "pages", "workspace.html")
+    else:
+        # Otherwise, gracefully send them to our elegant "Coming Soon" placeholder screen
+        template_path = os.path.join(base_dir, "pages", "coming-soon.html")
+        
+    try:
+        with open(template_path, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read(), status_code=200)
+    except Exception:
+        return HTMLResponse(content="<h2>Workspace template missing.</h2>", status_code=404)
+    
+
+# to load the contents to couse workspace
+@app.get("/api/module-steps")
+async def get_module_steps(module: str):
+    conn = sqlite3.connect("curriculum.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        SELECT title, instruction, task, initial_code, verify_keyword, show_sandbox 
+        FROM modules_content 
+        WHERE module_name = ? 
+        ORDER BY step_order ASC
+    """, (module,))
+    
+    rows = cursor.fetchall()
+    conn.close()
+    
+    if not rows:
+        return {"error": "Curriculum details data not found"}, 404
+        
+    steps_payload = []
+    for row in rows:
+        steps_payload.append({
+            "title": row[0],
+            "instruction": row[1],
+            "task": row[2],
+            "initial_code": row[3],
+            "verify_keyword": row[4],
+            "show_sandbox": bool(row[5]) # Convert SQLite 0/1 to Boolean
+        })
+        
+    return steps_payload
+
+
+
+# updation on module completion
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "curriculum.db")
+
+class ProgressPayload(BaseModel):
+    user_id: int
+    module_id: str
+    step_index: int = 0
+    status: str = "completed"
+
+@app.post("/api/complete-module")
+async def complete_module(data: ProgressPayload):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        # Ensure table exists with expected schema
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS user_progress (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                module_id TEXT NOT NULL,
+                step_index INTEGER DEFAULT 0,
+                status TEXT NOT NULL,
+                UNIQUE(user_id, module_id)
+            )
+        """)
+
+        # Upsert user progress
+        cursor.execute("""
+            INSERT INTO user_progress (user_id, module_id, step_index, status)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(user_id, module_id) 
+            DO UPDATE SET status = excluded.status, step_index = excluded.step_index
+        """, (data.user_id, data.module_id, data.step_index, data.status))
+
+        conn.commit()
+        conn.close()
+
+        return {"status": "success", "message": "Progress recorded successfully"}
+
+    except Exception as e:
+        print(f"❌ Error in /api/complete-module: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# to read from user_progress
+
+@app.get("/api/user/completed-modules")
+async def get_completed_modules(user_id: int):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            "SELECT module_id FROM user_progress WHERE user_id = ? AND status = 'completed'", 
+            (user_id,)
+        )
+        rows = cursor.fetchall()
+        conn.close()
+        
+        return {"completed_modules": [row[0] for row in rows]}
+
+    except Exception as e:
+        print(f"Error in /api/user/completed-modules: {e}")
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
