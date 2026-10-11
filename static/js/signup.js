@@ -1,5 +1,5 @@
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
-    e.preventDefault(); // 🛡️ Stop the browser from doing a traditional form reload
+    e.preventDefault(); // Stop the browser from doing a traditional form reload
 
     // 1. Grab the raw text strings from your beautiful input lines
     const name = document.getElementById('name').value;
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const googleBtn = document.querySelector(".google-btn");
     
     googleBtn.addEventListener("click", (e) => {
-            console.log("⚡ Google Button clicked! Attempting redirect...");
+            console.log("Google Button clicked! Attempting redirect...");
             window.location.href = "http://localhost:8000/auth/login";
         });
 });

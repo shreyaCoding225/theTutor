@@ -119,7 +119,7 @@ async def login_user(user_data: LoginRequest):
     if not user:
         raise HTTPException(status_code=400, detail="Invalid Email or Password!")
 
-    user_id, name, hashed_password = user
+    user_id, name, hashed_password = user  #tuple unpacking
 
     # 3. Cryptographic Verification
     from security import verify_password

@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (signinForm) {
     signinForm.addEventListener("submit", async (e) => {
-      e.preventDefault(); // 🛡️ Hard-stop native URL encoding transmission
+      e.preventDefault(); //  Hard-stop native URL encoding transmission
 
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      const payload = {
+      const payload = {     //wrapping
         email: email,
         password: password,
       };
@@ -16,14 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const response = await fetch("/auth/login", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" }, //metadata
           body: JSON.stringify(payload),
         });
 
         const data = await response.json();
 
         if (data.status === "success" && data.user_id) {
-          localStorage.setItem("session_user_id", String(data.user_id));
+          localStorage.setItem("session_user_id", String(data.user_id));  //stores the id 
 
           if (localStorage.getItem("session_user_id")) {
             console.log("Session ID successfully locked. Redirecting now...");
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const googleBtn = document.querySelector(".google-btn");
     
     googleBtn.addEventListener("click", (e) => {
-            console.log("⚡ Google Button clicked! Attempting redirect...");
+            console.log("Google Button clicked! Attempting redirect...");
             window.location.href = "http://localhost:8000/auth/login";
         });
 });

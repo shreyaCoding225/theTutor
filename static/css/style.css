@@ -76,6 +76,8 @@ body::-webkit-scrollbar {
     font-family: 'cambria', 'calibri', 'franklin gothic book';
     font-weight: bold;
     text-decoration: none;
+    text-shadow: 2px 2px 8px #0f0f0f;
+    /* -webkit-text-stroke: 1px #6299f9; */
 }
 
 .title a:hover{
@@ -97,6 +99,7 @@ body::-webkit-scrollbar {
     font-size: 22px;       
     font-weight: 600;      
     letter-spacing: 0.7px; 
+    text-shadow: 1.5px 1px 5px #5178d5;
 }
 
 .nav-option:hover{
@@ -106,6 +109,7 @@ body::-webkit-scrollbar {
 
 #sign{
     color: #d26e4d;
+    text-shadow: 1.5px 1px 5px #d7592e;
 }
 
 #sign:hover{
@@ -267,7 +271,7 @@ a {
 /* home page */
 #hero{
     background-color: #030426;
-    background-image: url('/static/images/dark-bg-pngbooks.jpg');
+    background-image: url('/static/images/dark-colorful-books.avif');
     background-size: auto;
     background-repeat: repeat !important;
     position: relative;

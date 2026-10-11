@@ -171,7 +171,7 @@ button{
     justify-content: center;
 }
 
-/* 🚀 2. The Content Wrapper - Tightly hugs the text so all colors show! */
+/* 2. The Content Wrapper - Tightly hugs the text so all colors show! */
 .google-content {
     display: inline-flex;
     align-items: center;
